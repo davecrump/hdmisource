@@ -1,0 +1,26 @@
+# Config file for hdmi source
+
+# Auto-start?  Amend if stuck in boot loop
+startup=hdmisource
+
+# Modes auto 1080p 1080i 720p 720i fps 24 25 30 50 60 100 120
+hdmimode=auto
+fps=60
+
+# Select camera: auto, c920, eagleeye, picam
+camera=auto
+viewfinder=off
+webcontrol=off
+
+# GPIO Broadcomm numbers for cam_switch and button
+# cam_switch 23 is physical pin 16; button 24 is physical pin 18; active LED 27 = pin 13
+cam_switch=23
+button=24
+active=27
+
+# Audio - not yet implemented
+# Options: none, noise, tone400, tone1000
+audio=none
+audiolevel=-18
+audiobitrate=48000
+
