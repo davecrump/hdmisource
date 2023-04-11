@@ -21,6 +21,8 @@ end
 EOF
 }
 
+# Put a black background up
+sudo fbi -T 1 -noverbose -a /home/pi/hdmisource/images/1080_Black.jpg >/dev/null 2>/dev/null
 
 CONFIGFILE=/boot/hdmisource_config.txt
 CAMERA=$(get-config_var camera $CONFIGFILE)
@@ -28,6 +30,13 @@ DEBUG=no  # set to yes for diagnostics
 
 if [ "$DEBUG" != "yes" ]; then
   clear
+fi
+
+if [ "$CAMERA" == "auto" ]; then
+  CAMERA=$1
+  if [ ${#CAMERA} -lt 2 ]; then
+    CAMERA=auto
+  fi
 fi
 
 ############ IDENTIFY USB VIDEO DEVICES #############################
@@ -186,7 +195,7 @@ fi
     fi
   fi
 
-  if [ "$WEBCAM_TYPE" == "None" ]; then
+  if [ "$WEBCAM_TYPE" == "None" ] && [ "$CAMERA" == "picam" ]; then
     libcamera-hello --list-cameras | grep -q "No cameras available"
     if [ $? != 0 ] && [ "$CAMERA" == "picam" ]; then
       WEBCAM_TYPE="PiCam"
@@ -262,6 +271,7 @@ fi
 
 sudo killall vlc >/dev/null 2>/dev/null
 sudo killall libcamera-hello >/dev/null 2>/dev/null
+sudo killall fbi >/dev/null 2>/dev/null
 
 if [ "$WEBCAM_TYPE" == "OldC920" ]; then
 
@@ -288,7 +298,7 @@ if [ "$WEBCAM_TYPE" == "USBTV007" ]; then
     v4l2:///"$VID_USB":width=720:height=576:chroma=I420:fps=25  >/dev/null 2>/dev/null
 fi
 
-if [ "$WEBCAM_TYPE" == "MS210x" ]; then
+if [ "$WEBCAM_TYPE" == "MS210X" ]; then
 
   # Reduce the contrast to prevent crushed whites
   (sleep 0.7; v4l2-ctl -d $VID_USB --set-ctrl $ECCONTRAST >/dev/null 2>/dev/null) &

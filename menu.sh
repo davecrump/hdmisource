@@ -45,6 +45,92 @@ end
 EOF
 }
 
+############ Function to Convert Pin to Broadcomm ###############
+
+do_pin2bcm()
+{
+  # 50 is returned for an invalid value
+  BCM=50
+
+  case "$PIN" in
+      1) BCM=50 ;;
+	  2) BCM=50 ;;
+	  3) BCM=2 ;;
+	  4) BCM=50 ;;
+   	  5) BCM=3 ;;
+	  6) BCM=50 ;;
+	  7) BCM=4 ;;
+	  8) BCM=14 ;;
+   	  9) BCM=50 ;;
+	  10) BCM=15 ;;
+      11) BCM=17 ;;
+	  12) BCM=18 ;;
+	  13) BCM=27 ;;
+	  14) BCM=50 ;;
+   	  15) BCM=22 ;;
+	  16) BCM=23 ;;
+	  17) BCM=50 ;;
+	  18) BCM=24 ;;
+   	  19) BCM=10 ;;
+	  20) BCM=50 ;;
+      21) BCM=9 ;;
+	  22) BCM=25 ;;
+	  23) BCM=11 ;;
+	  24) BCM=8 ;;
+   	  25) BCM=50 ;;
+	  26) BCM=7 ;;
+	  27) BCM=0 ;;
+	  28) BCM=1 ;;
+   	  29) BCM=5 ;;
+	  30) BCM=50 ;;
+      31) BCM=6 ;;
+	  32) BCM=12 ;;
+	  33) BCM=13 ;;
+	  34) BCM=50 ;;
+   	  35) BCM=19 ;;
+	  36) BCM=16 ;;
+	  37) BCM=26 ;;
+	  38) BCM=20 ;;
+   	  39) BCM=50 ;;
+	  40) BCM=21 ;;
+    esac
+}
+
+
+do_bcm2pin()
+{
+  case "$BCM" in
+      0) PINOUT=27 ;;
+      1) PINOUT=28 ;;
+	  2) PINOUT=3 ;;
+	  3) PINOUT=5 ;;
+	  4) PINOUT=7 ;;
+   	  5) PINOUT=29 ;;
+	  6) PINOUT=31 ;;
+	  7) PINOUT=26 ;;
+	  8) PINOUT=24 ;;
+   	  9) PINOUT=21 ;;
+	  10) PINOUT=19 ;;
+      11) PINOUT=23 ;;
+	  12) PINOUT=32 ;;
+	  13) PINOUT=33 ;;
+	  14) PINOUT=8 ;;
+   	  15) PINOUT=10 ;;
+	  16) PINOUT=36 ;;
+	  17) PINOUT=11 ;;
+	  18) PINOUT=12 ;;
+   	  19) PINOUT=35 ;;
+	  20) PINOUT=38 ;;
+      21) PINOUT=40 ;;
+	  22) PINOUT=15 ;;
+	  23) PINOUT=16 ;;
+	  24) PINOUT=18 ;;
+   	  25) PINOUT=22 ;;
+	  26) PINOUT=37 ;;
+	  27) PINOUT=13 ;;
+    esac
+}
+
 
 ################################### Menus ####################################
 
@@ -133,9 +219,79 @@ do_camera()
   done
 }
 
+do_camera_pin()
+{
+  BCM=$(get-config_var cam_switch $CONFIGFILE)
+  do_bcm2pin
+
+  PIN=$(whiptail --inputbox "Enter the Physical Pin number for the camera switch" \
+    8 78 $PINOUT --title "Set Camera Switch GPIO Pin" 3>&1 1>&2 2>&3)
+
+  if [ $? -eq 0 ]; then
+    do_pin2bcm
+    if [ $BCM -eq 50 ]; then
+      whiptail --title "Error" --msgbox "Pin "$PIN" is an invalid selction.  Press any key to try again" 8 78
+    else
+      set_config_var cam_switch "$BCM" $CONFIGFILE
+      whiptail --title "Success" --msgbox "Pin "$PIN" set for the camera switch.  Press any key to continue" 8 78
+    fi
+  fi
+}
+
+
+do_button_pin()
+{
+  BCM=$(get-config_var button $CONFIGFILE)
+  do_bcm2pin
+
+  PIN=$(whiptail --inputbox "Enter the Physical Pin number for the change button" \
+    8 78 $PINOUT --title "Set Change Button GPIO Pin" 3>&1 1>&2 2>&3)
+
+  if [ $? -eq 0 ]; then
+    do_pin2bcm
+    if [ $BCM -eq 50 ]; then
+      whiptail --title "Error" --msgbox "Pin "$PIN" is an invalid selction.  Press any key to try again" 8 78
+    else
+      set_config_var button "$BCM" $CONFIGFILE
+      whiptail --title "Success" --msgbox "Pin "$PIN" set for the change button.  Press any key to continue" 8 78
+    fi
+  fi
+}
+
+
+do_active_pin()
+{
+  BCM=$(get-config_var active $CONFIGFILE)
+  do_bcm2pin
+
+  PIN=$(whiptail --inputbox "Enter the Physical Pin number for the active LED" \
+    8 78 $PINOUT --title "Set Active LED GPIO Pin" 3>&1 1>&2 2>&3)
+
+  if [ $? -eq 0 ]; then
+    do_pin2bcm
+    if [ $BCM -eq 50 ]; then
+      whiptail --title "Error" --msgbox "Pin "$PIN" is an invalid selction.  Press any key to try again" 8 78
+    else
+      set_config_var active "$BCM" $CONFIGFILE
+      whiptail --title "Success" --msgbox "Pin "$PIN" set for the active LED.  Press any key to continue" 8 78
+    fi
+  fi
+}
+
+
+do_Reboot()
+{
+  /home/pi/hdmisource/stop.sh
+  sudo fbi -T 1 -noverbose -a /home/pi/hdmisource/images/shutdown_caption.jpg >/dev/null 2>/dev/null
+  sudo systemctl stop pigpiod &               # Prevent occasional shutdown hang
+  sleep 2
+  sudo reboot now                             # and shutdown
+}
+
 
 do_hdmi_mode()
 {
+  REBOOT_REQUIRED="no"
   HDMIMODE=$(get-config_var hdmimode $CONFIGFILE)
   Radio1=OFF
   Radio2=OFF
@@ -176,6 +332,7 @@ do_hdmi_mode()
   if [ $? -eq 0 ]; then
      set_config_var hdmimode "$hdmimode" $CONFIGFILE
      HDMIMODE=$hdmimode
+     REBOOT_REQUIRED="yes"
   fi
 
   if [ "$HDMIMODE" != "auto" ]; then
@@ -230,10 +387,19 @@ do_hdmi_mode()
     if [ $? -eq 0 ]; then
        set_config_var fps "$fps" $CONFIGFILE
        FPS=$fps
+       REBOOT_REQUIRED="yes"
     fi
   fi
-}
 
+  if  [ "$REBOOT_REQUIRED" == "yes" ]; then
+
+    # check and amend /boot/config.txt
+    /home/pi/hdmisource/hdmi_mode_check.sh
+
+    whiptail --title "Rebooting" --msgbox "Reboot required to apply the new settings.  Press any key to reboot" 8 78
+    do_Reboot
+  fi
+}
 
 
 do_autostart_setup()
@@ -276,37 +442,23 @@ do_system_setup()
   menuchoice=$(whiptail --title "Advanced Configuration Menu" --menu "Select an option" 20 78 13 \
     "1 Autostart" "Set Autostart"  \
     "2 Factory" "Restore Factory Settings" \
-    "3 Show IP" " " \
-    "4 WiFi Set-up" "SSID and password"  \
-    "5 WiFi Off" "Turn the WiFi Off" \
-    "6 Web Control" "Enable or Disable Web Control" \
-    "7 Set-up EasyCap" "Set input socket and PAL/NTSC"  \
-    "8 Audio Input" "Select USB Dongle or EasyCap"  \
-    "9 Attenuator" "Select Output Attenuator Type"  \
-    "10 Lime Status" "Check the LimeSDR Firmware Version"  \
-    "11 Lime Update" "Update the LimeSDR Firmware Version"  \
-    "12 Update" "Check for Updated Portsdown Software"  \
+    "3 Cam Pin" "Set the GPIO Pin for Camera Switch" \
+    "4 Button Pin" "Set the GPIO Pin for Change Button"  \
+    "5 Active Pin" "Set the GPIO pin for the Active LED" \
     3>&2 2>&1 1>&3)
     case "$menuchoice" in
       1\ *) do_autostart_setup ;;
       2\ *) do_Factory   ;;
-	  3\ *) do_dummy ;;
-      4\ *) do_dummy ;;
-      5\ *) do_dummy   ;;
-      6\ *) do_dummy ;;
-      7\ *) do_dummy ;;
-      8\ *) do_dummy;;
-      9\ *) do_dummy;;
-      10\ *) do_dummy;;
-      11\ *) do_dummy;;
-      12\ *) do_dummy ;;
+	  3\ *) do_camera_pin ;;
+      4\ *) do_button_pin ;;
+      5\ *) do_active_pin   ;;
     esac
 }
 
 
 do_EDID_Video()
 {
-  reset
+  clear
 
   printf "Extract from EDID\n"
   printf "=================\n\n"
@@ -319,9 +471,25 @@ do_EDID_Video()
 }
 
 
+do_show_now()
+{
+  clear
+
+  printf "Current Video Mode\n"
+  printf "==================\n\n"
+
+  kmsprint -l | grep "Crtc 3"
+  kmsprint -l | grep "FB "
+
+  printf "\n\nPress any key to return to the main menu\n"
+  read -n 1
+
+}
+
+
 do_EDID_Audio()
 {
-  reset
+  clear
 
   printf "Extract from EDID\n"
   printf "=================\n\n"
@@ -337,14 +505,6 @@ do_Exit()
   status=1
 }
 
-do_Reboot()
-{
-  /home/pi/hdmisource/stop.sh
-  sudo fbi -T 1 -noverbose -a /home/pi/hdmisource/images/shutdown_caption.jpg >/dev/null 2>/dev/null
-  sudo systemctl stop pigpiod &               # Prevent occasional shutdown hang
-  sleep 2
-  sudo reboot now                             # and shutdown
-}
 
 
 do_Shutdown()
@@ -362,8 +522,6 @@ do_Shutdown()
 #************************* Execution of Console Menu starts here *************************
 
 status=0
-
-# kmsprint -l | grep 'Crtc 3 '
 
 # Loop round main menu
 while [ "$status" -eq 0 ] 
@@ -389,23 +547,26 @@ while [ "$status" -eq 0 ]
 	"2 HDMI Mode" "Select HDMI Output resolution and framerate" \
 	"3 Config" "Adjust Advanced Settings" \
 	"4 Show EDID" "Show the valid Video modes for the connected monitor" \
-	"5 EDID Audio" "Show the valid Audio modes for the connected monitor" \
-    "6 Exit" "Exit to the Command Prompt" \
-    "7 Reboot" "Reboot the System" \
-    "8 Shutdown" "Shutdown the System" \
+	"5 Show Mode" "Show the current Video ouput mode" \
+	"6 EDID Audio" "Show the valid Audio modes for the connected monitor" \
+    "7 Exit" "Exit to the Command Prompt" \
+    "8 Reboot" "Reboot the System" \
+    "9 Shutdown" "Shutdown the System" \
  	3>&2 2>&1 1>&3)
 
-        case "$menuchoice" in
+    case "$menuchoice" in
 	    0\ *) do_camera ;;
         1\ *) do_dummy ;;
 	    2\ *) do_hdmi_mode ;;
    	    3\ *) do_system_setup ;;
 	    4\ *) do_EDID_Video ;;
-	    5\ *) do_EDID_Audio ;;
-	    6\ *) do_Exit ;;
-	    7\ *) do_Reboot ;;
-        8\ *) do_Shutdown ;;
+	    5\ *) do_show_now ;;
+	    6\ *) do_EDID_Audio ;;
+	    7\ *) do_Exit ;;
+	    8\ *) do_Reboot ;;
+        9\ *) do_Shutdown ;;
     esac
   done
 exit
+
 

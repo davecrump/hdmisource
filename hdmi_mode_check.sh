@@ -163,7 +163,7 @@ if [ "$HDMIMODE" == "1080i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1920 1080 24 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -174,7 +174,7 @@ if [ "$HDMIMODE" == "1080i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1920 1080 24 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -185,7 +185,7 @@ if [ "$HDMIMODE" == "1080i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1920 1080 30 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -224,7 +224,7 @@ if [ "$HDMIMODE" == "1080i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1920 1080 100 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -358,7 +358,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 24 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -369,7 +369,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 25 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -380,7 +380,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 30 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -391,7 +391,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 50 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -402,7 +402,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 60 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -413,7 +413,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 100 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -424,7 +424,7 @@ if [ "$HDMIMODE" == "720i" ]; then
       fi
       if [ "$CHANGE_REQUIRED" == "YES" ]; then 
         echo "hdmi_cvt=1280 720 120 3 0 1 0" > /home/pi/tmp/hdmi_def.txt
-        echo "hdmi_group=2" > /home/pi/tmp/hdmi_def.txt
+        echo "hdmi_group=2" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_mode=87" >> /home/pi/tmp/hdmi_def.txt
         echo "hdmi_drive=2" >> /home/pi/tmp/hdmi_def.txt
       fi
@@ -459,5 +459,10 @@ if [ "$CHANGE_REQUIRED" == "YES" ]; then
   sudo cp "$TRANSFILE" "$CHANGEFILE"                       ## Copy from the transfer file
   rm $TRANSFILE                                            ## Delete the transfer file
   rm $INSERTFILE                                           ## Delete the insert file
-  sudo reboot now
+
+  # Reboot if not called from menu
+  pgrep "menu" >/dev/null 2>/dev/null
+  if [ $? != 0 ]; then
+    sudo reboot now
+  fi
 fi

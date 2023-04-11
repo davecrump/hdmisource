@@ -49,6 +49,7 @@ else
 fi
 
 INDEX=1
+SHUTDOWN_COUNT=0
 
 # Display first image
 DISPLAY_FILE="$BASE_FILE_LABEL$INDEX"
@@ -61,17 +62,28 @@ while [[ $CAM_SWITCH_POS -eq 1 ]]; do              # Test Card selected
 
   if [[ $BUTTON_POS -eq 0 ]]; then
 
-    if [[ $INDEX -eq 0 ]]; then                   # Kill some fbi processes
+    ((SHUTDOWN_COUNT++))                          # Increment counter (only change when it is 1)
+
+    #echo $SHUTDOWN_COUNT incremented
+
+    if [[ $INDEX -eq 0 ]] && [[ $SHUTDOWN_COUNT -eq 1 ]]; then   # Kill some fbi processes
       sudo killall fbi
     fi
+  
+    if [[ $SHUTDOWN_COUNT -eq 1 ]]; then          # only change testcard once
 
-    ((INDEX++))
-    DISPLAY_FILE="$BASE_FILE_LABEL$INDEX"
-    echo $DISPLAY_FILE
-    eval "sudo fbi -T 1 -noverbose -a $DISPLAY_FILE >/dev/null 2>/dev/null"
-    if [[ $INDEX -eq $NO_OF_CARDS ]]; then
-      INDEX=0
+    #echo $SHUTDOWN_COUNT in loop
+
+      ((INDEX++))
+      DISPLAY_FILE="$BASE_FILE_LABEL$INDEX"
+      #echo $DISPLAY_FILE
+      eval "sudo fbi -T 1 -noverbose -a $DISPLAY_FILE >/dev/null 2>/dev/null"
+      if [[ $INDEX -eq $NO_OF_CARDS ]]; then
+        INDEX=0
+      fi
     fi
+  else                                            # Button released
+    SHUTDOWN_COUNT=0
   fi
   sleep 0.1s
 
