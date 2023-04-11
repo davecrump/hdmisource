@@ -1,3 +1,7 @@
+202304110
+Improve HDMI Current Mode Diagnostics
+Add Readme image
+
 202304100
 Initial production build
 No Audio functionality

@@ -466,6 +466,8 @@ do_EDID_Video()
   edid-decode /sys/class/drm/card0-HDMI-A-1/edid | grep "  DTD"
   edid-decode /sys/class/drm/card0-HDMI-A-1/edid | grep "  VIC"
 
+  echo "Decode: width x height (interlaced?), framerate, aspect ratio, line scan rate, pixel clock rate" 
+
   printf "\n\nPress any key to return to the main menu\n"
   read -n 1
 }
@@ -479,11 +481,19 @@ do_show_now()
   printf "==================\n\n"
 
   kmsprint -l | grep "Crtc 3"
+  echo
+  echo "Decode: Display width x height (interlaced?) @ framerate, pixel clock rate (MHz)"
+  echo "width/data/data/data, height/data/data/data, frame rate"
+  echo
+  echo
   kmsprint -l | grep "FB "
+  echo
+  echo "Decode: Framebuffer width x height, Mode"
+  echo "Mode RG16 is RGB Colour format at 16 bits/colour"
+  echo "Mode YU12 is YUV420"
 
   printf "\n\nPress any key to return to the main menu\n"
   read -n 1
-
 }
 
 
