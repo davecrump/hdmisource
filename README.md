@@ -1,7 +1,7 @@
 ![hdmisource build](/images/HDMI_Source_1.jpg)
 # BATC HDMI Signal Source for Raspberry Pi 3B 
 
-This software build for a Raspberry Pi 3B enables it to become a very HDMI test card generator or camera.  Only 2 external controls are required.  A pushbutton between pins 18 and 20 to select the desired testcard and, if a camera is fitted, a switch between pins 16 and 14 to select the camera.
+This software build for a Raspberry Pi 3B enables it to become a very capable HDMI test card generator or camera.  Only 2 external controls are required.  A pushbutton between pins 18 and 20 to select the desired testcard and, if a camera is fitted, a switch between pins 16 and 14 to select the camera.
 
 The current installation method only needs a Windows PC connected to the same (internet-connected) network as a Raspberry Pi 3.  Do not connect a keyboard directly to your Raspberry Pi.  You could connect an HDMI display, but it is not required at this stage.
 
